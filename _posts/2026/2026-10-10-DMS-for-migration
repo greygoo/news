@@ -1,0 +1,80 @@
+---
+author: Christian Hüller
+date: 2020-10-10 12:00:00+01:00
+layout: post
+license: CC-BY-SA-3.0
+title: Migrating Leap to SLE using the SUSE Migration Services
+image:
+categories:
+- Announcements
+tags:
+- migration
+---
+
+# Introduction
+An openSUSE Leap 16.1 installation can be migrated in place to SUSE Linux Enterprise Server 16.1.
+Until now there was one way to do that: `zypper migration`, run by hand on the system. As of SLE16.1 there is a second one — the SUSE Distribution Migration System (DMS) now supports Leap 16 as a starting point, which brings unattended, hands-off migration to Leap for the first time.
+
+# How it was done up to now
+Up to now, a migration from Leap to SLE was done by running `zypper migration`. You register your Leap system with a SLE key, and run the command, which then will migrate your repos and packages from Leap to the latest SLE product. The approach is interactive and only covers the package migration. It is still supported, but DMS will be the future of migration.
+
+# The new kid on the block
+Starting with SLE16.1, we introduce Leap support for the SUSE Distribution Migration System. This is the supported way to migrate between SLE versions and now got extended to also cover Leap->SLE migrations.
+
+# Requirements
+Independant of the migration tool you choose, you'll require
+
+**A valid SLE customer key**
+For a SLE product key, go to [scc.suse.com](https://scc.suse.com). Creating an account is free, and free trials are available there too. Once you have a subscription, you can register a Leap system with it and will then be able to get the SLE repos while migrating.
+
+Schools and universities should look at the [SUSE VLA Program for
+Education](https://www.suse.com/academic/). It covers primary education institutions, colleges, universities and academic non-profit hospitals, has no minimum purchase and no contract term, and runs discounted pricing through SUSE resellers.
+
+**A internet connection or a local SCC mirror**
+Both migration paths ask the registration server which upgrade is available and then download the new packages. Neither can run without a network. If your machines are not allowed out to the internet, you can use the SUSE's Repository Mirroring Tool for a local SCCC mirror.
+
+**Reasonably current hardware.**
+SLE 16 has certain hw requirements, on x86_64 it needs the v2 instruction set, so genuinely old machines are out of scope.
+
+# Why SUSE Distribution Migration System
+Zypper migration covers the repo and package migration only, any additional changes still require manual interaction by the user. The SUSE Distribution Migration system uses zypper migration under the hood to handle packages and repos but additional provides a way to run additional scripts to adjust the migrated system for e.g. network migration or selinux changes. Another difference is that DMS runs unattended and can be used to migrate systems more automatically.
+
+# How does it work
+DMS comes with an image of the system to migrate to, in the Leap16.1 case with a SLE16.1 image. This image contains the migration logic which runs automatically once the image gets booted. When installing the DMS packages a pre check script runs and a new default grub entry is added, that will boot into the DMS system, mount the Leap root partition and perform the migration on it fully unattended. Once finished, the system reboots again into the now migrated SLE16.1 system. 
+
+# How to use it
+To migrate Leap16.1 to SLE16.1, you have to
+```
+# add the migration repository
+zypper addrepo --refresh <REPOSITORY URL> migration
+zypper --gpg-auto-import-keys refresh
+
+# the migration image, and the boot entry that starts it
+zypper install SLES16-Migration suse-migration-sle16-activation
+
+# see what DMS makes of your system before migrating
+suse-migration-pre-checks
+
+# go
+reboot
+```
+
+# Who might be interested
+Leap is a fine place to run things, and plenty of Leap systems should stay exactly where they
+are. The migration is interesting when something has changed about what the machine is for.
+
+## Cloud users
+You started a project using the cloud on an openSUSE image because it was the fastest way
+to get moving, it worked, and now it is production.
+
+## Schools, universities and public administration
+Someone prototyped on openSUSE.
+Now the prototype gets used, and suddenly there are certification requirements, audit
+trails and procurement rules, and somebody needs a vendor to call.
+[Note about school offerings]
+
+## Small business
+The server an intern set up years ago because they knew Linux, which now
+quietly runs the invoicing. The intern left and a support contract behind it might become attractive.
+
+Please let us know if you are using DMS for migration and what you use case is.
