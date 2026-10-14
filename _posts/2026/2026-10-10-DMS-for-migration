@@ -60,21 +60,15 @@ reboot
 ```
 
 # Who might be interested
-Leap is a fine place to run things, and plenty of Leap systems should stay exactly where they
-are. The migration is interesting when something has changed about what the machine is for.
+Leap is a fine place to run things, and plenty of Leap systems should stay exactly where they are. The migration is interesting when something has changed about what the machine is for.
 
 ## Cloud users
-You started a project using the cloud on an openSUSE image because it was the fastest way
-to get moving, it worked, and now it is production.
+You started a project using the cloud on an openSUSE image because it was the fastest way to get moving, it worked, and now it is production.
 
 ## Schools, universities and public administration
-Someone prototyped on openSUSE.
-Now the prototype gets used, and suddenly there are certification requirements, audit
-trails and procurement rules, and somebody needs a vendor to call.
-[Note about school offerings]
+Someone prototyped on openSUSE. Now the prototype gets used, and suddenly there are certification requirements, audit trails and procurement rules, and somebody needs a vendor to call.
 
 ## Small business
-The server an intern set up years ago because they knew Linux, which now
-quietly runs the invoicing. The intern left and a support contract behind it might become attractive.
+The server an intern set up years ago because they knew Linux, which now quietly runs the invoicing. The intern left and a support contract behind it might become attractive.
 
 Please let us know if you are using DMS for migration and what you use case is.
